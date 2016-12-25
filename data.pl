@@ -15,7 +15,7 @@ tvShow(7, 'Van Helsing',1, 75, [7]).
 tvShow(8, 'Good Behavior',2, 105, [8]).
 tvShow(9, 'Shooter',2, 165, [1, 8]).
 tvShow(10, 'Designated Survivor',2, 205, [1, 8]).
-tvShow(11, 'The Crown',1, 20, [2, 7]).
+tvShow(11, 'The Crown',1, 7, [2, 7]).
 tvShow(12, 'The Exorcist', 3, 240, [6, 7]).
 tvShow(13, 'Goliath',2, 110, [8]).
 tvShow(14, 'The Good Place', 3, 190, [5]).
