@@ -55,12 +55,13 @@ sumCostAndVotes([H|T],CList, VList, TotalCost, TotalVotes):-
 	TotalVotes #= TotalVotesP + Votes,
 	sumCostAndVotes(T, CList, VList, TotalCostP, TotalVotesP).
 	
-run(Slots, N):-
+run(Slots, MaxDomain):-
+	MaxDomain =< 60,
 	0 < Slots, Slots < 9,
 	% initiate statistics
 	statistics(walltime, _),
 	restrictWeek(Slots, WeekList, TotalCost, TotalVotes),
-	WeekList ins 1..N,
+	WeekList ins 1..MaxDomain,
 	TotalVotes in 1..9999,
 	TotalCost in 1..9999,
 	append([TotalCost, TotalVotes], WeekList, Vars),
