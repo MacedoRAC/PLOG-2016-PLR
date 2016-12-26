@@ -54,7 +54,72 @@ sumCostAndVotes([H|T],CList, VList, TotalCost, TotalVotes):-
 	TotalCost #= TotalCostP + Cost,
 	TotalVotes #= TotalVotesP + Votes,
 	sumCostAndVotes(T, CList, VList, TotalCostP, TotalVotesP).
-	
+
+convertHour(Hour, StartHour):-
+	StartHour == 2000,
+	Hour = '20.00'.
+convertHour(Hour, StartHour):-
+	StartHour == 2050,
+	Hour = '20.30'.
+convertHour(Hour, StartHour):-
+	StartHour == 2100,
+	Hour = '21.00'.
+convertHour(Hour, StartHour):-
+	StartHour == 2150,
+	Hour = '21.30'.
+convertHour(Hour, StartHour):-
+	StartHour == 2200,
+	Hour = '22.00'.
+convertHour(Hour, StartHour):-
+	StartHour == 2250,
+	Hour = '22.30'.
+convertHour(Hour, StartHour):-
+	StartHour == 2300,
+	Hour = '23.00'.
+convertHour(Hour, StartHour):-
+	StartHour == 2350,
+	Hour = '23.30'.
+convertHour(Hour, StartHour):-
+	StartHour == 2400,
+	Hour = '24.00'.
+
+printDayList([]).
+printDayList([Id|T]):-
+	tvShow(Id, Name, Duration, _, _),
+	usersVote(Id, _, StartHour, _),
+	DurInMin is Duration * 30,
+	convertHour(Hour, StartHour),
+	write("    - "),
+	write(Name), write(', starting at '),
+	write(Hour), write('h during '),
+	write(DurInMin), write(' minutes'),
+	nl,
+	printDayList(T).
+
+printDay(Day, List):-
+	write(Day), write(': '), nl,
+	printDayList(List),
+	nl.
+
+getDayList(Number, List, DayList, RestList):-
+	length(DayList, Number),
+	append(DayList, RestList, List).
+
+printWeekList(WeekList, Slots):-
+	getDayList(Slots, WeekList, MondayList, RestList1),
+	printDay('Monday', MondayList),
+	getDayList(Slots, RestList1, TuesdayList, RestList2),
+	printDay('Tuesday', TuesdayList),
+	getDayList(Slots, RestList2, WednesdayList, RestList3),
+	printDay('Wednesday', WednesdayList),
+	getDayList(Slots, RestList3, ThursdayList, RestList4),
+	printDay('Thursday', ThursdayList),
+	getDayList(Slots, RestList4, FridayList, RestList5),
+	printDay('Friday', FridayList),
+	getDayList(Slots, RestList5, SaturdayList, RestList6),
+	printDay('Saturday', SaturdayList),
+	getDayList(Slots, RestList6, SundayList, _),
+	printDay('Sunday', SundayList).
 run(Slots, MaxDomain):-
 	MaxDomain =< 60,
 	0 < Slots, Slots < 9,
@@ -68,6 +133,7 @@ run(Slots, MaxDomain):-
 	labeling([ffc, bisect, min(TotalCost), max(TotalVotes)], Vars),
 	% Obtain and print statistics
 	statistics(walltime, [_, Elapsed | _]),
-	format('Time taken to find solution: ~3d seconds', Elapsed), nl,
+	format('Time taken to find solution: ~3d seconds', Elapsed), nl, nl,
 	%print results
-	write(WeekList),nl,write("cost: "),write(TotalCost),nl,write("votes: "),write(TotalVotes).
+	write(WeekList),
+	printWeekList(WeekList, Slots),nl,write("Cost: "),write(TotalCost),nl,write("Votes: "),write(TotalVotes).
