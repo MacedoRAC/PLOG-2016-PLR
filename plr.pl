@@ -55,12 +55,12 @@ sumCostAndVotes([H|T],CList, VList, TotalCost, TotalVotes):-
 	TotalVotes #= TotalVotesP + Votes,
 	sumCostAndVotes(T, CList, VList, TotalCostP, TotalVotesP).
 	
-run(Slots):-
+run(Slots, N):-
 	0 < Slots, Slots < 9,
 	% initiate statistics
 	statistics(walltime, _),
 	restrictWeek(Slots, WeekList, TotalCost, TotalVotes),
-	WeekList ins 1..60,
+	WeekList ins 1..N,
 	TotalVotes in 1..9999,
 	TotalCost in 1..9999,
 	append([TotalCost, TotalVotes], WeekList, Vars),
