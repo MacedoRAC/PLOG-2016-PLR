@@ -65,7 +65,7 @@ run(Slots, MaxDomain):-
 	TotalVotes in 1..9999,
 	TotalCost in 1..9999,
 	append([TotalCost, TotalVotes], WeekList, Vars),
-	labeling([ffc, bisect, min(TotalCost), max(TotalVotes)], Vars),
+	labeling([ffc, enum, min(TotalCost), max(TotalVotes)], Vars),
 	% Obtain and print statistics
 	statistics(walltime, [_, Elapsed | _]),
 	format('Time taken to find solution: ~3d seconds', Elapsed), nl,
